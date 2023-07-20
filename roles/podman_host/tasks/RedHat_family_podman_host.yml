@@ -52,6 +52,18 @@
     mode:  "0755"
   become: true
 
+- name: "set DOCKER_HOST env variable to use each user's podman socket (POSIX-complaint shells)"
+  ansible.builtin.copy:
+    dest: "/etc/profile.d/dockercompose.sh"
+    content: "export DOCKER_HOST=\"unix:///run/user/$(id -u)/podman/podman.sock\""
+  become: true
+
+- name: "set DOCKER_HOST env variable to use each user's podman socket (CSH shells)"
+  ansible.builtin.copy:
+    dest: "/etc/profile.d/dockercompose.csh"
+    content: "setenv DOCKER_HOST=\"unix:///run/user/$(id -u)/podman/podman.sock\""
+  become: true
+
 - name: "lower the unprivileged port number to {{ rootless_min_port }} permanently"
   ansible.posix.sysctl:
     name:        "net.ipv4.ip_unprivileged_port_start"
