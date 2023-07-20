@@ -1,0 +1,74 @@
+- name: "install podman"
+  ansible.builtin.package:
+    name:  "podman"
+    state: "present"
+  become: true
+
+- name: "create the user under which containers will run"
+  ansible.builtin.user:
+    name:        "{{ containers_user }}"
+    create_home: true
+    password:    "{{ containers_user_pass | password_hash('sha512') }}"
+  become: true
+
+- name: "make the user lingering"
+  ansible.builtin.command:
+    cmd: "loginctl enable-linger {{ containers_user }}"
+  become: true
+
+- name: "enable the podman socket for docker compatibility"
+  ansible.builtin.systemd:
+    scope:   "user"
+    name:    "podman.socket"
+    masked:  false
+    enabled: true
+    state:   "started"
+    force:   true
+  become:      true
+  become_user: "{{ containers_user }}"
+
+- name: "enable the podman-restart service for the user"
+  ansible.builtin.systemd:
+    scope:   "user"
+    name:    "podman-restart.service"
+    masked:  false
+    enabled: true
+    state:   "started"
+    force:   true
+  become:      true
+  become_user: "{{ containers_user }}"
+
+- name: "download docker-compose from github"
+  ansible.builtin.get_url:
+    url:      "{{ compose_releases_base_url }}/docker-compose-linux-{{ ansible_facts['architecture'] }}"
+    dest:     "{{ docker_compose_path }}"
+    checksum: "sha256:{{ compose_releases_base_url }}/docker-compose-linux-{{ ansible_facts['architecture'] }}.sha256"
+  become: true
+
+- name: "make docker-compose executable"
+  ansible.builtin.file:
+    path:  "{{ docker_compose_path }}"
+    state: "file"
+    mode:  "0755"
+  become: true
+
+- name: "lower the unprivileged port number to {{ rootless_min_port }} permanently"
+  ansible.posix.sysctl:
+    name:        "net.ipv4.ip_unprivileged_port_start"
+    value:       "{{ rootless_min_port }}"
+    sysctl_file: "{{ sysctl_ports_file }}"
+    sysctl_set:  true
+    state:       "present"
+    reload:      true
+  become: true
+
+- name: "allow inbound ports"
+  ansible.posix.firewalld:
+    port:      "{{ inbound_port }}"
+    permanent: true
+    immediate: true
+    state:     "enabled"
+  become: true
+  loop: "{{ inbound_ports }}"
+  loop_control:
+    loop_var: "inbound_port"

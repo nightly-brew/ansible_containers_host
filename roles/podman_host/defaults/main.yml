@@ -1,0 +1,7 @@
+containers_user: "podman"
+
+rootless_min_port: "80"
+
+inbound_ports:
+- "80/tcp"
+- "443/tcp"

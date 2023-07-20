@@ -1,0 +1,21 @@
+argument_specs:
+  main:
+    short_description: "setup a linux machine with podman for running OCI containers"
+    options:
+      containers_user:
+        description: "The name of the user to create for containers"
+        type:        "str"
+        required:    false
+      containers_user_pass:
+        description: "The unencrypted password for the container user"
+        type:        "str"
+        required:    true
+      rootless_min_port:
+        description: "The lower limit for the rootless ports"
+        type:        "int"
+        required:    false
+      inbound_ports:
+        description: "The list of inbound ports to allow"
+        type:        "list"
+        elements:    "str"
+        required:    false

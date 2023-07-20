@@ -1,0 +1,4 @@
+sysctl_ports_file: "/etc/sysctl.d/90-unprivileged-port.conf"
+
+compose_releases_base_url: "https://github.com/docker/compose/releases/latest/download"
+docker_compose_path:       "/usr/local/bin/docker-compose"
