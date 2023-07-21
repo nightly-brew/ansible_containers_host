@@ -1,6 +1,9 @@
-- name: "install podman"
+- name: "install podman, pip and git"
   ansible.builtin.package:
-    name:  "podman"
+    name:
+    - "podman"
+    - "git"
+    - "python3-pip"
     state: "present"
   become: true
 
