@@ -57,13 +57,13 @@
 
 - name: "set DOCKER_HOST env variable to use each user's podman socket (POSIX-complaint shells)"
   ansible.builtin.copy:
-    dest: "/etc/profile.d/dockercompose.sh"
+    dest: "/etc/profile.d/docker-compat.sh"
     content: "export DOCKER_HOST=\"unix:///run/user/$(id -u)/podman/podman.sock\""
   become: true
 
 - name: "set DOCKER_HOST env variable to use each user's podman socket (CSH shells)"
   ansible.builtin.copy:
-    dest: "/etc/profile.d/dockercompose.csh"
+    dest: "/etc/profile.d/docker-compat.csh"
     content: "setenv DOCKER_HOST=\"unix:///run/user/$(id -u)/podman/podman.sock\""
   become: true
 
