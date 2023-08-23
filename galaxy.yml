@@ -36,7 +36,8 @@ license_file: ''
 tags:
 - podman
 - docker
-- docker-compose
+- dockercompose
+- compose
 - linux
 - rhel
 - centos
@@ -46,7 +47,7 @@ tags:
 # L(specifiers,https://python-semanticversion.readthedocs.io/en/latest/#requirement-specification). Multiple version
 # range specifiers can be set and are separated by ','
 dependencies:
-  ansible.posix: '>=1.4.0'
+  ansible.posix: '>=1.4.1'
 
 # The URL of the originating SCM repository
 repository: https://github.com/nightly-brew/ansible_containers_host.git
