@@ -15,3 +15,7 @@ steps:
       from_secret: ansible_galaxy_token
   commands:
   -  ansible-galaxy collection publish $(find . -type f -name "nightly_brew-ansible_containers_host-*.tar.gz" -printf "%f\n") --token $ANSIBLE_GALAXY_TOKEN
+
+trigger:
+  event:
+  - tag
