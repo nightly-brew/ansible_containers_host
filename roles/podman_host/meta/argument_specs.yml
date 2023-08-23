@@ -1,5 +1,5 @@
 argument_specs:
-  RedHat_family_podman_host:
+  main:
     short_description: "setup a linux machine with podman for running OCI containers"
     options:
       containers_user:
