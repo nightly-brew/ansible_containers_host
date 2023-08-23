@@ -4,18 +4,18 @@ argument_specs:
     options:
       containers_user:
         description: "The name of the user to create for containers"
-        type:        "str"
-        required:    false
+        type: "str"
+        required: false
       containers_user_pass:
         description: "The unencrypted password for the container user"
-        type:        "str"
-        required:    true
+        type: "str"
+        required: true
       rootless_min_port:
         description: "The lower limit for the rootless ports"
-        type:        "int"
-        required:    false
+        type: "int"
+        required: false
       inbound_ports:
         description: "The list of inbound ports to allow"
-        type:        "list"
-        elements:    "str"
-        required:    false
+        type: "list"
+        elements: "str"
+        required: false
