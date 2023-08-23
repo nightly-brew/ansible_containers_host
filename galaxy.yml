@@ -29,7 +29,7 @@ license:
 
 # The path to the license file for the collection. This path is relative to the root of the collection. This key is
 # mutually exclusive with 'license'
-license_file: ''
+# license_file: ''
 
 # A list of tags you want to associate with the collection for indexing/searching. A tag name has the same character
 # requirements as 'namespace' and 'name'
@@ -53,7 +53,7 @@ dependencies:
 repository: https://github.com/nightly-brew/ansible_containers_host.git
 
 # The URL to any online docs
-documentation: http://docs.example.com
+# documentation: http://docs.example.com
 
 # The URL to the homepage of the collection/project
 homepage: https://github.com/nightly-brew/ansible_containers_host

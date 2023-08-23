@@ -1,7 +1,5 @@
 # Ansible Collection - nightly_brew.ansible_containers_host
 
-[![Build Status](https://droneci.moonlit-room.org/api/badges/nightly_brew/ansible_containers_host/status.svg)](https://droneci.moonlit-room.org/nightly_brew/ansible_containers_host)
-
 This collection takes care of setting up a linux machine to run OCI containers.
 
 There are two roles available under this collection:
