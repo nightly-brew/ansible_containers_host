@@ -1,0 +1,1 @@
+# Empty readme to satisfy ansible-galaxy constraints, see https://github.com/ansible/galaxy/issues/2438
