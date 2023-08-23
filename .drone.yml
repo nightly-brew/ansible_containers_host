@@ -3,15 +3,10 @@ type: docker
 name: ansible-galaxy-publish
 
 steps:
-- name: build
-  image: docker.io/geerlingguy/docker-debian11-ansible
-  commands:
-  - ansible-galaxy collection build --output-path "collection-artifact"
-
-- name: publish
+- name: build-and-publish
   image: docker.io/geerlingguy/docker-debian11-ansible
   environment:
     ANSIBLE_GALAXY_TOKEN:
       from_secret: ansible_galaxy_token
   commands:
-  - ansible-galaxy collection publish "collection-artifact/*.tar.gz" --token $ANSIBLE_GALAXY_TOKEN
+  - ansible-galaxy collection build --token $ANSIBLE_GALAXY_TOKEN
