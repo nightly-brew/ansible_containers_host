@@ -7,6 +7,11 @@
     state: "present"
   become: true
 
+- name: Ensure passlib is installed
+  ansible.builtin.pip:
+    name: "passlib"
+    state: "present"
+
 - name: "create the user under which containers will run"
   ansible.builtin.user:
     name: "{{ containers_user }}"
