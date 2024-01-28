@@ -1,4 +1,6 @@
-- name: "install podman, pip and git"
+---
+
+- name: Install podman, pip and git
   ansible.builtin.package:
     name:
     - "podman"
@@ -12,19 +14,20 @@
     name: "passlib"
     state: "present"
 
-- name: "create the user under which containers will run"
+- name: Create the user under which containers will run
   ansible.builtin.user:
     name: "{{ containers_user }}"
     create_home: true
     password: "{{ containers_user_pass | password_hash('sha512') }}"
   become: true
 
-- name: "make the user lingering"
+- name: Make the user lingering
   ansible.builtin.command:
     cmd: "loginctl enable-linger {{ containers_user }}"
   become: true
+  changed_when: true
 
-- name: "enable the podman socket for docker compatibility"
+- name: Enable the podman socket for docker compatibility
   ansible.builtin.systemd:
     scope: "user"
     name: "podman.socket"
@@ -35,7 +38,7 @@
   become: true
   become_user: "{{ containers_user }}"
 
-- name: "enable the podman-restart service for the user"
+- name: Enable the podman-restart service for the user
   ansible.builtin.systemd:
     scope: "user"
     name: "podman-restart.service"
@@ -46,43 +49,46 @@
   become: true
   become_user: "{{ containers_user }}"
 
-- name: "download docker-compose from github"
+- name: Download docker-compose from github
   ansible.builtin.get_url:
     url: "{{ compose_releases_base_url }}/docker-compose-linux-{{ ansible_facts['architecture'] }}"
     dest: "{{ docker_compose_path }}"
     checksum: "sha256:{{ compose_releases_base_url }}/docker-compose-linux-{{ ansible_facts['architecture'] }}.sha256"
+    mode: "0600"
   become: true
 
-- name: "make docker-compose executable"
+- name: Make docker-compose executable
   ansible.builtin.file:
     path: "{{ docker_compose_path }}"
     state: "file"
     mode: "0755"
   become: true
 
-- name: "set DOCKER_HOST env variable to use each user's podman socket (POSIX-complaint shells)"
+- name: Set DOCKER_HOST env variable to use each user's podman socket (POSIX-complaint shells)
   ansible.builtin.copy:
     dest: "/etc/profile.d/docker-compat.sh"
     content: "export DOCKER_HOST=\"unix:///run/user/$(id -u)/podman/podman.sock\""
+    mode: "0644"
   become: true
 
-- name: "set DOCKER_HOST env variable to use each user's podman socket (CSH shells)"
+- name: Set DOCKER_HOST env variable to use each user's podman socket (CSH shells)
   ansible.builtin.copy:
     dest: "/etc/profile.d/docker-compat.csh"
     content: "setenv DOCKER_HOST=\"unix:///run/user/$(id -u)/podman/podman.sock\""
+    mode: "0644"
   become: true
 
-- name: "lower the unprivileged port number to {{ rootless_min_port }} permanently"
+- name: Lower the unprivileged port number permanently to {{ rootless_min_port }}
   ansible.posix.sysctl:
     name: "net.ipv4.ip_unprivileged_port_start"
     value: "{{ rootless_min_port }}"
     sysctl_file: "{{ sysctl_ports_file }}"
-    sysctl_set:  true
+    sysctl_set: true
     state: "present"
     reload: true
   become: true
 
-- name: "allow inbound ports"
+- name: Allow inbound ports
   ansible.posix.firewalld:
     port: "{{ inbound_port }}"
     permanent: true

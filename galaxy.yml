@@ -1,3 +1,5 @@
+---
+
 ### REQUIRED
 # The namespace of the collection. This can be a company/brand/organization or product namespace under which all
 # content lives. May only contain alphanumeric lowercase characters and underscores. Namespaces cannot start with
@@ -66,4 +68,5 @@ issues: https://github.com/nightly-brew/ansible_containers_host/issues
 # uses 'fnmatch' to match the files or directories. Some directories and files like 'galaxy.yml', '*.pyc', '*.retry',
 # and '.git' are always filtered
 build_ignore:
-- '.gitea'
+- '.woodpecker'
+- '.ansible-lint'
