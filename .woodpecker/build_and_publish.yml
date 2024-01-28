@@ -1,3 +1,5 @@
+---
+
 steps:
 - name: build and publish on ansible galaxy
   image: docker.io/geerlingguy/docker-debian11-ansible
@@ -6,3 +8,6 @@ steps:
   - ansible-galaxy collection publish $(find . -type f -name "nightly_brew-ansible_containers_host-*.tar.gz" -printf "%f\n") --token $ANSIBLE_GALAXY_TOKEN
   secrets:
   - ansible_galaxy_token
+
+depends_on:
+- lint

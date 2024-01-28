@@ -1,0 +1,8 @@
+---
+
+skip_list:
+- "yaml[indentation]"
+- "yaml[line-length]"
+- "var-naming[no-role-prefix]"
+- "name[play]"
+- "galaxy[no-changelog]"

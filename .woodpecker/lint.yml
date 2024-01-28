@@ -1,0 +1,8 @@
+---
+
+steps:
+- name: lint ansible code
+  image: docker.io/pipelinecomponents/ansible-lint
+  commands:
+  - ansible-galaxy collection install .
+  - ansible-lint
